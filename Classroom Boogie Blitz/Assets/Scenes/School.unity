@@ -1320,6 +1320,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FillSpeed: 0.15
+  leftScoreDisplay: {fileID: 0}
+  rightScoreDisplay: {fileID: 0}
 --- !u!1001 &236506384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3711,6 +3713,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FillSpeed: 0.15
+  leftScoreDisplay: {fileID: 0}
+  rightScoreDisplay: {fileID: 0}
 --- !u!1001 &1168113860
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4948,7 +4952,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1590133890
 AudioListener:
   m_ObjectHideFlags: 0
@@ -5651,6 +5655,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FillSpeed: 0.5
+  leftScoreDisplay: {fileID: 0}
+  rightScoreDisplay: {fileID: 0}
 --- !u!114 &1884855593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5720,7 +5726,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1969564471
 Transform:
   m_ObjectHideFlags: 0
