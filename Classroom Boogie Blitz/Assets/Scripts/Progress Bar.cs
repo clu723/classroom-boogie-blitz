@@ -14,7 +14,7 @@ public class ProgressBar : MonoBehaviour
     {
         slider = gameObject.GetComponent<Slider>();
         leftController = gameObject.gameObject.GetComponent<LeftController>();
-        rightController = gameObject.gameObject.GetComponent<RightController>();        
+        rightController = gameObject.gameObject.GetComponent<RightController>();
         slider.value = 0;
         IncrementProgress(0.75f);
     }
@@ -22,7 +22,8 @@ public class ProgressBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(slider.value < targetProgress){
+        if (slider.value < targetProgress)
+        {
             slider.value += FillSpeed * Time.deltaTime;
         }
     }
