@@ -9,7 +9,7 @@ public class TeacherBehavior : MonoBehaviour
     public float maxTimeWriting = 7.0f;
 
     private Animator animator;
-    private bool isFacingStudents = true;
+    public bool isFacingStudents = true;
     private bool isRotating = false;
     private float rotationTimeElapsed = 0;
     private float currentWritingTime = 0;

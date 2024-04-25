@@ -1,75 +1,69 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
 
 public class ProgressBar : MonoBehaviour
 {
-    private Slider slider;
-    public float FillSpeed = 0.15f;
-    private float targetProgress = 0;
-    private float leftVelocity = 0;
-    private GameObject leftController;
+    [SerializeField] private Slider slider;
+    [SerializeField] private float fillSpeed = 1f; // This will be dynamically adjusted by controller speed
+    [SerializeField] private float decreaseRate = 0.1f; // Rate at which the progress decreases when not moving
+
+    private TeacherBehavior teacherBehavior;
     private InputData _inputData;
+    private float currentVelocity = 0f;
 
-    public TextMeshProUGUI leftScoreDisplay;
-    public TextMeshProUGUI rightScoreDisplay;
-    private float _leftMaxScore = 0f;
-    private float _rightMaxScore = 0f;
-
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        _inputData = GetComponent<InputData>();
-        slider = gameObject.GetComponent<Slider>();
-               
-        slider.value = 0;
-        leftController = GameObject.Find("LeftController");
-        IncrementProgress(0.75f);
+        teacherBehavior = FindObjectOfType<TeacherBehavior>(); // Ensure the TeacherBehavior script is on the teacher GameObject
+        _inputData = GetComponent<InputData>(); // Assuming the InputData is attached to the same GameObject as this script
+        ResetProgress();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if(slider.value < targetProgress){
-            slider.value += FillSpeed * Time.deltaTime;
-        }
-
-        if (_inputData._leftController.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 leftVelocity))
+        if (teacherBehavior && !teacherBehavior.isFacingStudents)
         {
-            _leftMaxScore = Mathf.Max(leftVelocity.magnitude, _leftMaxScore);
-            leftScoreDisplay.text = _leftMaxScore.ToString("F2");
+            UpdateProgressBasedOnMovement();
         }
-        if (_inputData._rightController.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 rightVelocity))
+        else
         {
-            _rightMaxScore = Mathf.Max(rightVelocity.magnitude, _rightMaxScore);
-            rightScoreDisplay.text = _rightMaxScore.ToString("F2");
+            DecreaseProgress();
         }
-        float average_velocity = (_leftMaxScore + _rightMaxScore) / 2;
-        IncrementProgress(average_velocity);
-        
-        
-        //this is the velocity
-        /*
-        get position on this frame.
-        Add it to list
-        average the list with a velocity function 
-        
-        ballSpeed = transform.position - lastPos;
-        ballSpeed /= Time.deltaTime;
-        lastPos = transform.position;
-        */
 
-
+        UpdateProgressBar();
     }
 
-    public void IncrementProgress(float newProgress)
+    private void UpdateProgressBasedOnMovement()
     {
-        targetProgress = slider.value + newProgress;
+        float leftVelocity = 0f, rightVelocity = 0f;
+        if (_inputData._leftController.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 leftControllerVelocity))
+        {
+            leftVelocity = leftControllerVelocity.magnitude;
+        }
+        if (_inputData._rightController.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 rightControllerVelocity))
+        {
+            rightVelocity = rightControllerVelocity.magnitude;
+        }
+
+        currentVelocity = (leftVelocity + rightVelocity) / 2; // Average velocity of both controllers
+        slider.value += currentVelocity * fillSpeed * Time.deltaTime; // Increase progress bar according to the velocity
+    }
+
+    private void DecreaseProgress()
+    {
+        if (slider.value > 0)
+        {
+            slider.value -= decreaseRate * Time.deltaTime; // Slowly decrease the progress bar when not moving
+        }
+    }
+
+    private void UpdateProgressBar()
+    {
+        slider.value = Mathf.Clamp(slider.value, 0, slider.maxValue); // Ensure the progress bar value stays within valid bounds
+    }
+
+    public void ResetProgress()
+    {
+        slider.value = 0; // Reset the progress bar at the start of the game
     }
 }
