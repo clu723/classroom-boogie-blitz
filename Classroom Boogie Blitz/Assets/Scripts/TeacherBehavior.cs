@@ -91,18 +91,9 @@ public class TeacherBehavior : MonoBehaviour
 
     private bool IsPlayerMoving()
     {
-        bool leftMoving = false;
-        bool rightMoving = false;
 
-        if (leftController.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 leftAxis) && leftAxis.magnitude > 0.1f)
-        {
-            leftMoving = true;
-        }
-
-        if (rightController.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 rightAxis) && rightAxis.magnitude > 0.1f)
-        {
-            rightMoving = true;
-        }
+        bool leftMoving = leftController.inputDevice.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 leftVelocity) && leftVelocity.magnitude > 0.1f;
+        bool rightMoving = rightController.inputDevice.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 rightVelocity) && rightVelocity.magnitude > 0.1f;
 
         return leftMoving || rightMoving;
     }

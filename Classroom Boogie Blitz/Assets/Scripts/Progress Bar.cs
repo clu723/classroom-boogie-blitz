@@ -75,6 +75,6 @@ public class ProgressBar : MonoBehaviour
 
     public void LoadWinScene()
     {
-        SceneManager.LoadScene("Win"); // Replace with the name of your win scene
+        SceneManager.LoadScene("Win");
     }
 }

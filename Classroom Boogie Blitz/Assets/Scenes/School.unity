@@ -5580,7 +5580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 1884855593}
   fillSpeed: 1
-  decreaseRate: 0.1
+  decreaseRate: 0.5
 --- !u!114 &1884855593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5626,7 +5626,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 10
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:

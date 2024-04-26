@@ -8,6 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/School.unity
     guid: 6dd9841126642e540bb9cedbb0212e3b
+  - enabled: 1
+    path: Assets/Scenes/Lose.unity
+    guid: 13c1f8612f73645668a840930cafb263
+  - enabled: 1
+    path: Assets/Scenes/Win.unity
+    guid: 7f92aa3291921487eb842b8e7a188ff1
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 1891f1b48b816d448928b247d257c244, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 5fb3b36c1b76d5344a2e09c8614bd794, type: 2}
