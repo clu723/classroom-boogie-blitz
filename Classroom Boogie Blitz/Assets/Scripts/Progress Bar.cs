@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR;
+using UnityEngine.SceneManagement;
 
 public class ProgressBar : MonoBehaviour
 {
@@ -31,6 +32,11 @@ public class ProgressBar : MonoBehaviour
         }
 
         UpdateProgressBar();
+
+        if (slider.value >= slider.maxValue)
+        {
+            LoadWinScene();
+        }
     }
 
     private void UpdateProgressBasedOnMovement()
@@ -65,5 +71,10 @@ public class ProgressBar : MonoBehaviour
     public void ResetProgress()
     {
         slider.value = 0; // Reset the progress bar at the start of the game
+    }
+
+    public void LoadWinScene()
+    {
+        SceneManager.LoadScene("Win"); // Replace with the name of your win scene
     }
 }

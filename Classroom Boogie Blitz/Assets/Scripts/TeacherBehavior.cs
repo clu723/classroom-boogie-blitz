@@ -1,5 +1,9 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.SceneManagement;
+
 
 public class TeacherBehavior : MonoBehaviour
 {
@@ -13,11 +17,17 @@ public class TeacherBehavior : MonoBehaviour
     private bool isRotating = false;
     private float rotationTimeElapsed = 0;
     private float currentWritingTime = 0;
+    private XRController leftController;
+    private XRController rightController;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         rotationSpeed = 180.0f / timeToRotate;
+        GameObject leftControllerObject = GameObject.Find("Left Controller");
+        GameObject rightControllerObject = GameObject.Find("Right Controller");
+        leftController = leftControllerObject.GetComponent<XRController>();
+        rightController = rightControllerObject.GetComponent<XRController>();
         StartRotationSequence();
     }
 
@@ -26,6 +36,10 @@ public class TeacherBehavior : MonoBehaviour
         if (isRotating)
         {
             RotateTeacher();
+        }
+        if (isFacingStudents && IsPlayerMoving())
+        {
+            EndGame();
         }
     }
 
@@ -53,6 +67,7 @@ public class TeacherBehavior : MonoBehaviour
             if (isFacingStudents)
             {
                 animator.SetTrigger("FaceStudents");
+
             }
         }
     }
@@ -72,5 +87,28 @@ public class TeacherBehavior : MonoBehaviour
             isFacingStudents = !isFacingStudents;
             transform.rotation = Quaternion.Euler(0, isFacingStudents ? 0 : 180, 0);
         }
+    }
+
+    private bool IsPlayerMoving()
+    {
+        bool leftMoving = false;
+        bool rightMoving = false;
+
+        if (leftController.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 leftAxis) && leftAxis.magnitude > 0.1f)
+        {
+            leftMoving = true;
+        }
+
+        if (rightController.inputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 rightAxis) && rightAxis.magnitude > 0.1f)
+        {
+            rightMoving = true;
+        }
+
+        return leftMoving || rightMoving;
+    }
+
+    private void EndGame()
+    {
+        SceneManager.LoadScene("Lose");
     }
 }
