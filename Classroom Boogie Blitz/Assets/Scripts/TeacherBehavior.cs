@@ -17,17 +17,13 @@ public class TeacherBehavior : MonoBehaviour
     private bool isRotating = false;
     private float rotationTimeElapsed = 0;
     private float currentWritingTime = 0;
-    private XRController leftController;
-    private XRController rightController;
+    private InputData _inputData;
 
     void Start()
     {
+        _inputData = FindObjectOfType<InputData>();
         animator = GetComponent<Animator>();
         rotationSpeed = 180.0f / timeToRotate;
-        GameObject leftControllerObject = GameObject.Find("Left Controller");
-        GameObject rightControllerObject = GameObject.Find("Right Controller");
-        leftController = leftControllerObject.GetComponent<XRController>();
-        rightController = rightControllerObject.GetComponent<XRController>();
         StartRotationSequence();
     }
 
@@ -92,8 +88,8 @@ public class TeacherBehavior : MonoBehaviour
     private bool IsPlayerMoving()
     {
 
-        bool leftMoving = leftController.inputDevice.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 leftVelocity) && leftVelocity.magnitude > 0.1f;
-        bool rightMoving = rightController.inputDevice.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 rightVelocity) && rightVelocity.magnitude > 0.1f;
+        bool leftMoving = _inputData._leftController.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 leftVelocity) && leftVelocity.magnitude > 0.25f;
+        bool rightMoving = _inputData._rightController.TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 rightVelocity) && rightVelocity.magnitude > 0.25f;
 
         return leftMoving || rightMoving;
     }
